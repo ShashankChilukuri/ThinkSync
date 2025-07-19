@@ -1,9 +1,15 @@
-from google import genai
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
-client = genai.Client(api_key="AIzaSyBPK1z0NodU79v-ceMy4TrAXNiqALCGzdQ")
+load_dotenv()
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-response = client.models.generate_content(
-    model="gemini-2.0-flash",
-      contents="Explain how AI works in a few words"
-)
+
+genai.configure(api_key=GOOGLE_API_KEY)
+
+model = genai.GenerativeModel("gemini-1.5-flash")  # Use "gemini-1.5-flash" or other available models
+
+response = model.generate_content("Explain how AI works in a few words")
+
 print(response.text)
